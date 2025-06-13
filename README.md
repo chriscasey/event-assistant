@@ -48,35 +48,6 @@ docker compose run --rm app-client
 > Show me the schedule
 ```
 
-## 🏗️ Architecture
-
-**Modern AI-First Design:**
-- **Client** - Interactive terminal for natural language queries
-- **Server** - FastAPI with OpenAI integration + MCP tool discovery
-- **Database** - PostgreSQL with realistic conference data
-- **MCP** - Automatic function registration and schema generation
-
-### MCP Integration Benefits
-
-✅ **Auto-Discovery** - Functions automatically registered as AI tools  
-✅ **Schema Generation** - Type hints become OpenAI function schemas  
-✅ **Single Source of Truth** - Function definitions in one place  
-✅ **Clean Architecture** - No manual tool definitions needed  
-
-## 📡 API
-
-### POST `/ask`
-Send natural language questions to the AI assistant.
-
-```json
-{
-  "question": "Who are the speakers today?"
-}
-```
-
-### GET `/health` 
-Service health check endpoint.
-
 ## 🗄️ Database
 
 **Automatically populated with realistic data:**
@@ -159,18 +130,6 @@ docker volume ls                  # List volumes
 | `OPENAI_API_KEY` | Your OpenAI API key | Yes |
 | `DATABASE_URL` | PostgreSQL connection | No (auto-configured) |
 
-## 🧪 Testing
-
-**Quick API test:**
-```bash
-# Check health
-curl http://localhost:8000/health
-
-# Ask a question
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Who are the speakers?"}'
-```
 
 ## 📋 Requirements
 
@@ -178,33 +137,5 @@ curl -X POST http://localhost:8000/ask \
 - **OpenAI API Key** (set in `.env`)
 - **Internet connection** (for OpenAI API)
 
-## 🚀 What's New
-
-**v2.0 - MCP Integration:**
-- ✅ Full MCP (Model Context Protocol) implementation
-- ✅ Automatic tool discovery and registration  
-- ✅ 90+ lines of code reduction (removed manual tool definitions)
-- ✅ Cleaner, more maintainable architecture
-- ✅ Type-safe function schemas from Python type hints
-- ✅ Single source of truth for function definitions
-
-**Code Quality:**
-- ✅ Cleaned up from 300+ to ~180 lines in main files
-- ✅ Removed debug logging and verbose comments
-- ✅ Production-ready error handling
-- ✅ Version-pinned dependencies for reproducible builds
-
-## 🎯 Perfect For
-
-- **Learning AI function calling** with real-world examples
-- **Conference/event management** systems
-- **Natural language interfaces** to databases
-- **MCP integration** examples and best practices
-
-## 📄 License
-
-MIT License
-
----
 
 **Built with FastAPI, OpenAI, MCP, PostgreSQL, and Docker** 🚀 
