@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eventdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d eventdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app-server:
+    build: ./server
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/eventdb
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+    command: ["python", "main.py"]
+    restart: on-failure
+
+  app-client:
+    build: ./client
+    depends_on:
+      - app-server
+    environment:
+      SERVER_URL: http://app-server:8000/ask
+    stdin_open: true  # Enable interactive input
+    tty: true         # Allocate a pseudo-TTY
+    profiles:
+      - client        # Optional service - won't start automatically
+    entrypoint: ["python", "client.py"]  # Run client.py on container start
+
+volumes:
+  pgdata:
